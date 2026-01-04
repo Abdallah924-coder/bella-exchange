@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Commande envoyée - Bella Exchange</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #0b132b;
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      background: #0d1b3d;
+    }
+
+    .logo {
+      color: #ffd700;
+      font-weight: bold;
+      font-size: 20px;
+    }
+
+    .nav a {
+      color: #ffffff;
+      text-decoration: none;
+      margin: 0 15px;
+      font-size: 16px;
+    }
+
+    .nav a:hover {
+      color: #ffd700;
+    }
+
+    .container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .success-box {
+      max-width: 600px;
+      width: 100%;
+      background: #101e4a;
+      border-radius: 12px;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .icon {
+      font-size: 80px;
+      margin-bottom: 20px;
+      animation: bounce 1s ease infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+
+    h1 {
+      color: #ffd700;
+      margin-bottom: 15px;
+      font-size: 28px;
+    }
+
+    .success-message {
+      background: #1e3a6f;
+      padding: 25px;
+      border-radius: 8px;
+      margin: 25px 0;
+      border: 2px solid #ffd700;
+    }
+
+    .success-message p {
+      color: #cbd5f5;
+      line-height: 1.8;
+      margin: 10px 0;
+      font-size: 16px;
+    }
+
+    .success-message strong {
+      color: #ffd700;
+    }
+
+    .info-box {
+      background: #0d1b3d;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+
+    .info-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 0;
+      color: #cbd5f5;
+      font-size: 15px;
+    }
+
+    .info-item::before {
+      content: '✓';
+      color: #ffd700;
+      font-size: 20px;
+      font-weight: bold;
+      margin-right: 12px;
+    }
+
+    .whatsapp-btn {
+      display: inline-block;
+      background: #25D366;
+      color: white;
+      padding: 16px 40px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 18px;
+      margin: 20px 10px;
+      transition: 0.3s;
+      box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+    }
+
+    .whatsapp-btn:hover {
+      background: #20ba5a;
+      transform: translateY(-2px);
+    }
+
+    .home-btn {
+      display: inline-block;
+      background: #ffd700;
+      color: #000;
+      padding: 14px 30px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      margin: 10px;
+      transition: 0.3s;
+    }
+
+    .home-btn:hover {
+      background: #ffed4e;
+      transform: translateY(-2px);
+    }
+
+    .note {
+      background: #1e3a6f;
+      padding: 15px;
+      border-radius: 6px;
+      margin-top: 30px;
+      font-size: 14px;
+      color: #cbd5f5;
+    }
+
+    footer {
+      padding: 20px;
+      font-size: 14px;
+      text-align: center;
+      background: #060b23;
+    }
+
+    @media (max-width: 768px) {
+      .success-box {
+        padding: 30px 20px;
+      }
+
+      h1 {
+        font-size: 22px;
+      }
+
+      .icon {
+        font-size: 60px;
+      }
+
+      .whatsapp-btn, .home-btn {
+        display: block;
+        margin: 10px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="logo">🇨🇬 Bella Exchange</div>
+    <nav class="nav">
+      <a href="index.html">Accueil</a>
+      <a href="acheter.html">Acheter</a>
+      <a href="vendre.html">Vendre</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <div class="success-box">
+      <div class="icon">✅</div>
+      <h1>Commande envoyée avec succès !</h1>
+      
+      <div class="success-message">
+        <p><strong>Félicitations !</strong></p>
+        <p>Votre commande a bien été reçue et est en cours de traitement.</p>
+        <p style="font-size: 18px; color: #ffd700; margin-top: 15px;">
+          Un email de confirmation vous a été envoyé avec tous les détails.
+        </p>
+      </div>
+
+      <div class="info-box">
+        <div class="info-item">
+          Votre paiement est en cours de vérification
+        </div>
+        <div class="info-item">
+          Vous recevrez vos cryptos/fonds dans 15 à 60 minutes
+        </div>
+        <div class="info-item">
+          Un email de confirmation vous a été envoyé
+        </div>
+        <div class="info-item">
+          Notre équipe traite votre commande rapidement
+        </div>
+      </div>
+
+      <p style="color: #cbd5f5; margin: 20px 0; line-height: 1.6;">
+        💡 <strong>Que faire maintenant ?</strong><br>
+        Vous n'avez rien à faire ! Nous nous occupons de tout. 
+        Si vous avez des questions ou que vous ne recevez rien après 1 heure, 
+        contactez-nous sur WhatsApp.
+      </p>
+
+      <div>
+        <a href="https://wa.me/242057035179?text=Bonjour%2C%20j'ai%20pass%C3%A9%20une%20commande%20sur%20CongoCrypto" 
+           class="whatsapp-btn" target="_blank">
+          📱 Contacter le support WhatsApp
+        </a>
+      </div>
+
+      <div>
+        <a href="index.html" class="home-btn">🏠 Retour à l'accueil</a>
+      </div>
+
+      <div class="note">
+        <strong>⚠️ Important :</strong><br>
+        • Vérifiez votre boîte email (et les spams) pour le récapitulatif<br>
+        • Gardez votre capture d'écran de paiement<br>
+        • En cas de problème, contactez-nous immédiatement
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2026 Bella - Exchange – Tous droits réservés</p>
+  </footer>
+
+</body>
+</html>

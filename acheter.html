@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Acheter Crypto - Bella Exchange</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #0b132b;
+      color: #ffffff;
+      min-height: 100vh;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      background: #0d1b3d;
+      position: relative;
+    }
+
+    .logo {
+      color: #ffd700;
+      font-weight: bold;
+      font-size: 20px;
+    }
+
+    .hamburger {
+      width: 30px;
+      cursor: pointer;
+      z-index: 1001;
+      display: none;
+    }
+
+    .hamburger span {
+      display: block;
+      height: 3px;
+      background: #ffd700;
+      margin: 6px 0;
+      transition: 0.3s;
+    }
+
+    .nav {
+      display: flex;
+    }
+
+    .nav a {
+      color: #ffffff;
+      text-decoration: none;
+      margin: 0 15px;
+      font-size: 16px;
+    }
+
+    .nav a:hover {
+      color: #ffd700;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 30px;
+      background: #101e4a;
+      border-radius: 12px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 10px;
+      color: #ffd700;
+      font-size: 24px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #cbd5f5;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #cbd5f5;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    select, input[type="number"], input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      border-radius: 6px;
+      border: 2px solid #1e3a6f;
+      background: #0d1b3d;
+      color: #ffffff;
+      font-size: 16px;
+    }
+
+    select:focus, input:focus {
+      outline: none;
+      border-color: #ffd700;
+    }
+
+    .alert {
+      background: #ff8c00;
+      color: #000;
+      padding: 12px;
+      border-radius: 6px;
+      margin: 15px 0;
+      font-size: 14px;
+      font-weight: bold;
+      display: none;
+    }
+
+    .alert.show {
+      display: block;
+    }
+
+    .info-box {
+      background: #1e3a6f;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+      border: 2px solid #ffd700;
+      display: none;
+    }
+
+    .info-box.show {
+      display: block;
+    }
+
+    .info-box p {
+      margin: 8px 0;
+      color: #cbd5f5;
+      font-size: 14px;
+    }
+
+    .info-box strong {
+      color: #ffd700;
+    }
+
+    .phone-number {
+      background: #0d1b3d;
+      padding: 15px;
+      border-radius: 6px;
+      text-align: center;
+      margin: 15px 0;
+      border: 2px dashed #ffd700;
+    }
+
+    .phone-number-text {
+      font-size: 24px;
+      color: #ffd700;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .file-upload-wrapper {
+      border: 2px dashed #ffd700;
+      padding: 30px 20px;
+      text-align: center;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+      background: #0d1b3d;
+    }
+
+    .file-upload-wrapper:hover {
+      background: #1e3a6f;
+      border-color: #ffed4e;
+    }
+
+    .file-upload-wrapper input[type="file"] {
+      display: none;
+    }
+
+    .upload-icon {
+      font-size: 48px;
+      margin-bottom: 10px;
+    }
+
+    .upload-text {
+      color: #cbd5f5;
+      font-size: 14px;
+      margin: 5px 0;
+    }
+
+    .file-preview {
+      margin-top: 15px;
+      padding: 10px;
+      background: #1e3a6f;
+      border-radius: 6px;
+      display: none;
+    }
+
+    .file-preview.show {
+      display: block;
+    }
+
+    .file-preview-text {
+      color: #ffd700;
+      font-size: 14px;
+      word-break: break-all;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: 6px;
+      background: #ffd700;
+      color: #000;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-top: 10px;
+    }
+
+    .btn:hover:not(:disabled) {
+      background: #ffed4e;
+      transform: translateY(-2px);
+    }
+
+    .btn:disabled {
+      background: #666;
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 20px;
+      background: #1e3a6f;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+
+    .loading.show {
+      display: block;
+    }
+
+    .spinner {
+      border: 4px solid #1e3a6f;
+      border-top: 4px solid #ffd700;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 15px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    footer {
+      padding: 20px;
+      font-size: 14px;
+      text-align: center;
+      background: #060b23;
+      margin-top: 40px;
+    }
+
+    @media (max-width: 768px) {
+      .hamburger {
+        display: block;
+      }
+
+      .nav {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background: #0b132b;
+        flex-direction: column;
+        padding: 100px 20px;
+        transition: right 0.3s ease;
+        z-index: 1000;
+      }
+
+      .nav.active {
+        right: 0;
+      }
+
+      .nav a {
+        margin: 0 0 25px 0;
+        font-size: 18px;
+      }
+
+      .container {
+        margin: 20px;
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 20px;
+      }
+
+      .phone-number-text {
+        font-size: 20px;
+      }
+
+      .upload-icon {
+        font-size: 36px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="logo">🇨🇬 Bella Exchange</div>
+
+    <div class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <nav class="nav" id="nav">
+      <a href="index.html">Accueil</a>
+      <a href="acheter.html">Acheter</a>
+      <a href="vendre.html">Vendre</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <h1>💰 Acheter des Cryptomonnaies</h1>
+    <p class="subtitle">Remplissez le formulaire ci-dessous pour acheter vos cryptos</p>
+
+    <form id="buyForm">
+      
+      <div class="form-group">
+        <label for="crypto">Choisir la cryptomonnaie *</label>
+        <select id="crypto" required>
+          <option value="">-- Sélectionner une crypto --</option>
+          <option value="BTC">Bitcoin (BTC)</option>
+          <option value="ETH">Ethereum (ETH)</option>
+          <option value="BNB">BNB</option>
+          <option value="USDT">USDT</option>
+        </select>
+      </div>
+
+      <div id="feesAlert" class="alert">
+        ⚠️ Des frais peuvent s'appliquer pour BTC et ETH. Contactez-nous sur WhatsApp avant de continuer.
+      </div>
+
+      <div class="form-group">
+        <label for="amountUSD">Montant en USD (minimum 2$) *</label>
+        <input type="number" id="amountUSD" min="2" step="0.01" placeholder="Exemple: 10" required>
+      </div>
+
+      <div class="form-group">
+        <label for="amountCFA">Montant à payer en CFA (1$ = 620 CFA)</label>
+        <input type="text" id="amountCFA" readonly placeholder="0 CFA" style="background: #1e3a6f; cursor: not-allowed;">
+      </div>
+
+      <div class="form-group">
+        <label for="walletAddress">Votre adresse Wallet (pour recevoir vos cryptos) *</label>
+        <input type="text" id="walletAddress" placeholder="Entrez votre adresse de réception" required>
+        <small style="color: #cbd5f5; font-size: 12px; display: block; margin-top: 5px;">
+          ⚠️ Vérifiez bien votre adresse, nous ne pourrons pas récupérer les fonds envoyés à une mauvaise adresse.
+        </small>
+      </div>
+
+      <div id="paymentInfo" class="info-box">
+        <p style="font-size: 16px; font-weight: bold; margin-bottom: 15px;">📱 Informations de paiement</p>
+        
+        <p style="margin-bottom: 10px;">Envoyez le montant ci-dessous à ce numéro :</p>
+        
+        <div class="phone-number">
+          <!-- 🔧 METTRE VOTRE NUMÉRO MOBILE MONEY ICI -->
+          <div class="phone-number-text">+242 06 932 59 37</div>
+          <p style="color: #cbd5f5; font-size: 12px; margin-top: 8px;">Mobile Money (MICHY MAGELLAN DEVOUE LI-MBOUITY)</p>
+        </div>
+
+        <p style="margin: 15px 0;"><strong>Montant exact à envoyer :</strong></p>
+        <p style="font-size: 22px; color: #ffd700; text-align: center; font-weight: bold;" id="payAmount">0 CFA</p>
+        
+        <p style="font-size: 13px; margin-top: 15px; color: #ff8c00;">
+          ⚠️ Envoyez <strong>exactement</strong> ce montant, puis téléchargez la capture de votre transaction ci-dessous.
+        </p>
+      </div>
+
+      <div class="form-group" id="uploadSection" style="display: none;">
+        <label>Capture d'écran de la transaction *</label>
+        <div class="file-upload-wrapper" id="fileUploadWrapper">
+          <div class="upload-icon">📸</div>
+          <p class="upload-text"><strong>Cliquez ici pour télécharger</strong></p>
+          <p class="upload-text">ou glissez votre image</p>
+          <input type="file" id="fileInput" accept="image/*" required>
+        </div>
+        <div class="file-preview" id="filePreview">
+          <p class="file-preview-text">✅ <span id="fileName"></span></p>
+        </div>
+      </div>
+
+      <button type="submit" class="btn" id="submitBtn" disabled>Valider la commande</button>
+
+    </form>
+
+    <div class="loading" id="loadingDiv">
+      <div class="spinner"></div>
+      <p style="color: #ffd700; font-weight: bold;">Envoi de votre commande en cours...</p>
+      <p style="color: #cbd5f5; font-size: 14px; margin-top: 10px;">Veuillez patienter, ne fermez pas cette page.</p>
+    </div>
+
+  </div>
+
+  <footer>
+    <p>© 2026 Bella - Exchange – Tous droits réservés</p>
+  </footer>
+
+  <script>
+    // 🔧 CONFIGURATION - URL DE TON API BACKEND
+    const API_URL = 'http://localhost:5000/api/orders';
+
+    const hamburger = document.getElementById('hamburger');
+    const nav = document.getElementById('nav');
+
+    hamburger.addEventListener('click', () => {
+      nav.classList.toggle('active');
+    });
+
+    const cryptoSelect = document.getElementById('crypto');
+    const amountUSD = document.getElementById('amountUSD');
+    const amountCFA = document.getElementById('amountCFA');
+    const walletAddress = document.getElementById('walletAddress');
+    const feesAlert = document.getElementById('feesAlert');
+    const paymentInfo = document.getElementById('paymentInfo');
+    const uploadSection = document.getElementById('uploadSection');
+    const submitBtn = document.getElementById('submitBtn');
+    const fileInput = document.getElementById('fileInput');
+    const filePreview = document.getElementById('filePreview');
+    const fileName = document.getElementById('fileName');
+    const payAmount = document.getElementById('payAmount');
+    const fileUploadWrapper = document.getElementById('fileUploadWrapper');
+    const loadingDiv = document.getElementById('loadingDiv');
+
+    const USD_TO_CFA = 620;
+    let selectedFile = null;
+
+    cryptoSelect.addEventListener('change', function() {
+      if (this.value === 'BTC' || this.value === 'ETH') {
+        feesAlert.classList.add('show');
+      } else {
+        feesAlert.classList.remove('show');
+      }
+      checkFormCompletion();
+    });
+
+    amountUSD.addEventListener('input', function() {
+      const usdValue = parseFloat(this.value) || 0;
+      const cfaValue = Math.round(usdValue * USD_TO_CFA);
+      
+      if (usdValue > 0) {
+        amountCFA.value = cfaValue.toLocaleString('fr-FR') + ' CFA';
+        payAmount.textContent = cfaValue.toLocaleString('fr-FR') + ' CFA';
+      } else {
+        amountCFA.value = '';
+        payAmount.textContent = '0 CFA';
+      }
+      
+      if (usdValue >= 2) {
+        paymentInfo.classList.add('show');
+        uploadSection.style.display = 'block';
+      } else {
+        paymentInfo.classList.remove('show');
+        uploadSection.style.display = 'none';
+      }
+      checkFormCompletion();
+    });
+
+    fileUploadWrapper.addEventListener('click', function() {
+      fileInput.click();
+    });
+
+    fileInput.addEventListener('change', function() {
+      if (this.files && this.files[0]) {
+        selectedFile = this.files[0];
+        fileName.textContent = selectedFile.name;
+        filePreview.classList.add('show');
+        checkFormCompletion();
+      }
+    });
+
+    function checkFormCompletion() {
+      const crypto = cryptoSelect.value;
+      const usd = parseFloat(amountUSD.value) || 0;
+      const wallet = walletAddress.value.trim();
+      
+      if (crypto && usd >= 2 && wallet && selectedFile) {
+        submitBtn.disabled = false;
+      } else {
+        submitBtn.disabled = true;
+      }
+    }
+
+    walletAddress.addEventListener('input', checkFormCompletion);
+
+    document.getElementById('buyForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      // Générer numéro de commande
+      const date = new Date();
+      const dateStr = date.getFullYear() + 
+                      String(date.getMonth() + 1).padStart(2, '0') + 
+                      String(date.getDate()).padStart(2, '0');
+      const random = Math.floor(1000 + Math.random() * 9000);
+      const orderNumber = `CMD-${dateStr}-${random}`;
+
+      // Afficher le loading
+      loadingDiv.classList.add('show');
+      submitBtn.disabled = true;
+
+      // Créer FormData pour envoyer au backend
+      const formData = new FormData();
+      formData.append('orderNumber', orderNumber);
+      formData.append('type', 'ACHAT');
+      formData.append('crypto', cryptoSelect.value);
+      formData.append('amountUSD', amountUSD.value);
+      formData.append('amountCFA', amountCFA.value);
+      formData.append('walletAddress', walletAddress.value);
+      formData.append('screenshot', selectedFile);
+
+      try {
+        // Envoyer au backend
+        const response = await fetch(`${API_URL}/create`, {
+          method: 'POST',
+          body: formData
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          // Sauvegarder pour la page d'attente
+          const orderData = {
+            orderNumber: orderNumber,
+            type: 'ACHAT',
+            crypto: cryptoSelect.value,
+            amountUSD: amountUSD.value,
+            amountCFA: amountCFA.value,
+            walletAddress: walletAddress.value,
+            timestamp: date.toISOString()
+          };
+
+          localStorage.setItem('currentOrder', JSON.stringify(orderData));
+
+          // Rediriger vers page d'attente
+          window.location.href = 'attente.html';
+        } else {
+          throw new Error(result.message || 'Erreur lors de la création de la commande');
+        }
+
+      } catch (error) {
+        console.error('Erreur:', error);
+        loadingDiv.classList.remove('show');
+        submitBtn.disabled = false;
+        alert('❌ Erreur lors de l\'envoi de la commande. Veuillez réessayer ou nous contacter sur WhatsApp.');
+      }
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Contact - Congo Crypto Exchange</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #0b132b;
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* HEADER */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      background: #0d1b3d;
+      position: relative;
+    }
+
+    .logo {
+      color: #ffd700;
+      font-weight: bold;
+      font-size: 20px;
+    }
+
+    /* HAMBURGER */
+    .hamburger {
+      width: 30px;
+      cursor: pointer;
+      z-index: 1001;
+      display: none;
+    }
+
+    .hamburger span {
+      display: block;
+      height: 3px;
+      background: #ffd700;
+      margin: 6px 0;
+      transition: 0.3s;
+    }
+
+    /* NAV */
+    .nav {
+      display: flex;
+    }
+
+    .nav a {
+      color: #ffffff;
+      text-decoration: none;
+      margin: 0 15px;
+      font-size: 16px;
+    }
+
+    .nav a:hover {
+      color: #ffd700;
+    }
+
+    /* MAIN CONTENT */
+    .container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .contact-box {
+      max-width: 600px;
+      width: 100%;
+      background: #101e4a;
+      border-radius: 12px;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .icon {
+      font-size: 80px;
+      margin-bottom: 20px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    h1 {
+      color: #ffd700;
+      margin-bottom: 15px;
+      font-size: 28px;
+    }
+
+    .subtitle {
+      color: #cbd5f5;
+      line-height: 1.6;
+      margin-bottom: 30px;
+      font-size: 16px;
+    }
+
+    .contact-info {
+      background: #1e3a6f;
+      padding: 25px;
+      border-radius: 8px;
+      margin: 30px 0;
+      border: 2px solid #ffd700;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 15px 0;
+      color: #cbd5f5;
+      font-size: 16px;
+    }
+
+    .contact-item-icon {
+      font-size: 24px;
+      margin-right: 10px;
+    }
+
+    .contact-item strong {
+      color: #ffd700;
+    }
+
+    .whatsapp-btn {
+      display: inline-block;
+      background: #25D366;
+      color: white;
+      padding: 16px 40px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 18px;
+      margin: 20px 10px;
+      transition: 0.3s;
+      box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+    }
+
+    .whatsapp-btn:hover {
+      background: #20ba5a;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+    }
+
+    .home-btn {
+      display: inline-block;
+      background: transparent;
+      color: #ffd700;
+      border: 2px solid #ffd700;
+      padding: 14px 30px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      margin: 10px;
+      transition: 0.3s;
+    }
+
+    .home-btn:hover {
+      background: #ffd700;
+      color: #000;
+    }
+
+    .info-text {
+      color: #cbd5f5;
+      line-height: 1.8;
+      margin: 25px 0;
+      font-size: 15px;
+    }
+
+    .faq-section {
+      text-align: left;
+      background: #0d1b3d;
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 30px;
+    }
+
+    .faq-title {
+      color: #ffd700;
+      font-size: 20px;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .faq-item {
+      margin: 15px 0;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #1e3a6f;
+    }
+
+    .faq-item:last-child {
+      border-bottom: none;
+    }
+
+    .faq-question {
+      color: #ffd700;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .faq-answer {
+      color: #cbd5f5;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 20px;
+      font-size: 14px;
+      text-align: center;
+      background: #060b23;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .hamburger {
+        display: block;
+      }
+
+      .nav {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background: #0b132b;
+        flex-direction: column;
+        padding: 100px 20px;
+        transition: right 0.3s ease;
+        z-index: 1000;
+      }
+
+      .nav.active {
+        right: 0;
+      }
+
+      .nav a {
+        margin: 0 0 25px 0;
+        font-size: 18px;
+      }
+
+      .contact-box {
+        padding: 30px 20px;
+      }
+
+      h1 {
+        font-size: 22px;
+      }
+
+      .icon {
+        font-size: 60px;
+      }
+
+      .whatsapp-btn {
+        display: block;
+        margin: 20px 0;
+      }
+
+      .home-btn {
+        display: block;
+        margin: 10px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="logo">🇨🇬 Bella Exchange</div>
+
+    <div class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <nav class="nav" id="nav">
+      <a href="index.html">Accueil</a>
+      <a href="acheter.html">Acheter</a>
+      <a href="vendre.html">Vendre</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <div class="contact-box">
+      <div class="icon">💬</div>
+      <h1>Besoin d'aide ?</h1>
+      <p class="subtitle">
+        Notre équipe est disponible pour répondre à toutes vos questions sur l'achat et la vente de cryptomonnaies au Congo.
+      </p>
+
+      <div class="contact-info">
+        <div class="contact-item">
+          <span class="contact-item-icon">📱</span>
+          <span><strong>WhatsApp :</strong> +242 05 703 51 79</span>
+        </div>
+        <div class="contact-item">
+          <span class="contact-item-icon">📧</span>
+          <span><strong>Email :</strong> bellaexchange924@gmail.com</span>
+        </div>
+        <div class="contact-item">
+          <span class="contact-item-icon">⏰</span>
+          <span><strong>Horaires :</strong> 7j/7, 8h - 22h</span>
+        </div>
+      </div>
+
+      <div class="info-text">
+        <p><strong>Contactez-nous pour :</strong></p>
+        <p>✅ Questions sur une transaction en cours</p>
+        <p>✅ Informations sur les frais BTC/ETH</p>
+        <p>✅ Problèmes techniques</p>
+        <p>✅ Demandes de renseignements généraux</p>
+      </div>
+
+      <a href="#" class="whatsapp-btn" id="whatsappBtn">
+        📱 Ouvrir WhatsApp
+      </a>
+
+      <div>
+        <a href="index.html" class="home-btn">🏠 Retour à l'accueil</a>
+      </div>
+
+      <div class="faq-section">
+        <h3 class="faq-title">❓ Questions fréquentes</h3>
+        
+        <div class="faq-item">
+          <p class="faq-question">Combien de temps prend une transaction ?</p>
+          <p class="faq-answer">Les transactions sont généralement traitées en 15 à 60 minutes après vérification du paiement.</p>
+        </div>
+
+        <div class="faq-item">
+          <p class="faq-question">Quels sont les montants minimum et maximum ?</p>
+          <p class="faq-answer">Le montant minimum est de 2$ (environ 1,240 CFA). Pas de limite maximum, contactez-nous pour les grosses transactions.</p>
+        </div>
+
+        <div class="faq-item">
+          <p class="faq-question">Puis-je annuler une transaction ?</p>
+          <p class="faq-answer">Une fois la commande validée, contactez-nous immédiatement sur WhatsApp avec votre numéro de commande.</p>
+        </div>
+
+        <div class="faq-item">
+          <p class="faq-question">Quels moyens de paiement acceptez-vous ?</p>
+          <p class="faq-answer">Nous acceptons Mobile Money pour tous les paiements en CFA.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2026 Bella - Exchange – Tous droits réservés</p>
+  </footer>
+
+  <script>
+    // MENU MOBILE
+    const hamburger = document.getElementById('hamburger');
+    const nav = document.getElementById('nav');
+
+    hamburger.addEventListener('click', () => {
+      nav.classList.toggle('active');
+    });
+
+    // 🔧 CONFIGURATION WHATSAPP - À REMPLIR
+    const WHATSAPP_NUMBER = '242057035179'; // Format: 242069325937 (sans + ni espaces)
+    
+    // Lien WhatsApp
+    const whatsappBtn = document.getElementById('whatsappBtn');
+    const message = 'Bonjour BellaExchange, j\'ai une question concernant vos services.';
+    whatsappBtn.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+  </script>
+
+</body>
+</html>

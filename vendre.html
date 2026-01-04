@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Vendre Crypto - Bella Exchange</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #0b132b;
+      color: #ffffff;
+      min-height: 100vh;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      background: #0d1b3d;
+      position: relative;
+    }
+
+    .logo {
+      color: #ffd700;
+      font-weight: bold;
+      font-size: 20px;
+    }
+
+    .hamburger {
+      width: 30px;
+      cursor: pointer;
+      z-index: 1001;
+      display: none;
+    }
+
+    .hamburger span {
+      display: block;
+      height: 3px;
+      background: #ffd700;
+      margin: 6px 0;
+      transition: 0.3s;
+    }
+
+    .nav {
+      display: flex;
+    }
+
+    .nav a {
+      color: #ffffff;
+      text-decoration: none;
+      margin: 0 15px;
+      font-size: 16px;
+    }
+
+    .nav a:hover {
+      color: #ffd700;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 30px;
+      background: #101e4a;
+      border-radius: 12px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 10px;
+      color: #ffd700;
+      font-size: 24px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #cbd5f5;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #cbd5f5;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    select, input[type="number"], input[type="text"], input[type="tel"] {
+      width: 100%;
+      padding: 12px;
+      border-radius: 6px;
+      border: 2px solid #1e3a6f;
+      background: #0d1b3d;
+      color: #ffffff;
+      font-size: 16px;
+    }
+
+    select:focus, input:focus {
+      outline: none;
+      border-color: #ffd700;
+    }
+
+    .alert {
+      background: #ff8c00;
+      color: #000;
+      padding: 12px;
+      border-radius: 6px;
+      margin: 15px 0;
+      font-size: 14px;
+      font-weight: bold;
+      display: none;
+    }
+
+    .alert.show {
+      display: block;
+    }
+
+    .info-box {
+      background: #1e3a6f;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+      border: 2px solid #ffd700;
+      display: none;
+    }
+
+    .info-box.show {
+      display: block;
+    }
+
+    .info-box p {
+      margin: 8px 0;
+      color: #cbd5f5;
+      font-size: 14px;
+    }
+
+    .info-box strong {
+      color: #ffd700;
+    }
+
+    .wallet-address-box {
+      background: #0d1b3d;
+      padding: 15px;
+      border-radius: 6px;
+      margin: 15px 0;
+      border: 2px dashed #ffd700;
+    }
+
+    .wallet-label {
+      color: #cbd5f5;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .wallet-address-text {
+      color: #ffd700;
+      font-size: 14px;
+      font-weight: bold;
+      word-break: break-all;
+      line-height: 1.5;
+    }
+
+    .copy-btn {
+      background: #ffd700;
+      color: #000;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: bold;
+      margin-top: 10px;
+      transition: 0.3s;
+    }
+
+    .copy-btn:hover {
+      background: #ffed4e;
+    }
+
+    .calculation-box {
+      background: #0d1b3d;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 15px 0;
+    }
+
+    .calc-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      color: #cbd5f5;
+      font-size: 14px;
+    }
+
+    .calc-row.total {
+      border-top: 2px solid #ffd700;
+      margin-top: 10px;
+      padding-top: 15px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .calc-row.total .amount {
+      color: #ffd700;
+      font-size: 22px;
+    }
+
+    .calc-row .amount {
+      color: #ffd700;
+      font-weight: bold;
+    }
+
+    .fees-note {
+      background: #1e3a6f;
+      padding: 12px;
+      border-radius: 6px;
+      margin: 10px 0;
+      font-size: 13px;
+      color: #cbd5f5;
+    }
+
+    .file-upload-wrapper {
+      border: 2px dashed #ffd700;
+      padding: 30px 20px;
+      text-align: center;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+      background: #0d1b3d;
+    }
+
+    .file-upload-wrapper:hover {
+      background: #1e3a6f;
+      border-color: #ffed4e;
+    }
+
+    .file-upload-wrapper input[type="file"] {
+      display: none;
+    }
+
+    .upload-icon {
+      font-size: 48px;
+      margin-bottom: 10px;
+    }
+
+    .upload-text {
+      color: #cbd5f5;
+      font-size: 14px;
+      margin: 5px 0;
+    }
+
+    .file-preview {
+      margin-top: 15px;
+      padding: 10px;
+      background: #1e3a6f;
+      border-radius: 6px;
+      display: none;
+    }
+
+    .file-preview.show {
+      display: block;
+    }
+
+    .file-preview-text {
+      color: #ffd700;
+      font-size: 14px;
+      word-break: break-all;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: 6px;
+      background: #ffd700;
+      color: #000;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-top: 10px;
+    }
+
+    .btn:hover:not(:disabled) {
+      background: #ffed4e;
+      transform: translateY(-2px);
+    }
+
+    .btn:disabled {
+      background: #666;
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 20px;
+      background: #1e3a6f;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+
+    .loading.show {
+      display: block;
+    }
+
+    .spinner {
+      border: 4px solid #1e3a6f;
+      border-top: 4px solid #ffd700;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 15px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    footer {
+      padding: 20px;
+      font-size: 14px;
+      text-align: center;
+      background: #060b23;
+      margin-top: 40px;
+    }
+
+    @media (max-width: 768px) {
+      .hamburger {
+        display: block;
+      }
+
+      .nav {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background: #0b132b;
+        flex-direction: column;
+        padding: 100px 20px;
+        transition: right 0.3s ease;
+        z-index: 1000;
+      }
+
+      .nav.active {
+        right: 0;
+      }
+
+      .nav a {
+        margin: 0 0 25px 0;
+        font-size: 18px;
+      }
+
+      .container {
+        margin: 20px;
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 20px;
+      }
+
+      .upload-icon {
+        font-size: 36px;
+      }
+
+      .calc-row.total .amount {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="logo">🇨🇬 Bella Exchange</div>
+
+    <div class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <nav class="nav" id="nav">
+      <a href="index.html">Accueil</a>
+      <a href="acheter.html">Acheter</a>
+      <a href="vendre.html">Vendre</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <h1>💸 Vendre vos Cryptomonnaies</h1>
+    <p class="subtitle">Vendez vos cryptos et recevez des CFA directement sur Mobile Money</p>
+
+    <form id="sellForm">
+      
+      <div class="form-group">
+        <label for="crypto">Choisir la cryptomonnaie à vendre *</label>
+        <select id="crypto" required>
+          <option value="">-- Sélectionner une crypto --</option>
+          <option value="BTC">Bitcoin (BTC)</option>
+          <option value="ETH">Ethereum (ETH)</option>
+          <option value="BNB">BNB</option>
+          <option value="USDT">USDT</option>
+        </select>
+      </div>
+
+      <div id="feesAlert" class="alert">
+        ⚠️ Des frais peuvent s'appliquer pour BTC et ETH. Contactez-nous sur WhatsApp avant de continuer.
+      </div>
+
+      <div id="walletSection" class="info-box">
+        <p style="font-size: 16px; font-weight: bold; margin-bottom: 15px;">📍 Envoyez vos cryptos à cette adresse :</p>
+        
+        <div class="wallet-address-box">
+          <p class="wallet-label" id="walletLabel">Adresse Bitcoin (BTC)</p>
+          <p class="wallet-address-text" id="walletAddressDisplay">
+            <!-- 🔧 LES ADRESSES SERONT AFFICHÉES ICI AUTOMATIQUEMENT -->
+          </p>
+          <button type="button" class="copy-btn" id="copyBtn">📋 Copier l'adresse</button>
+        </div>
+
+        <p style="font-size: 13px; color: #ff8c00; margin-top: 10px;">
+          ⚠️ <strong>Important :</strong> Envoyez uniquement la crypto sélectionnée à cette adresse. Tout envoi d'une autre crypto sera perdu définitivement.
+        </p>
+      </div>
+
+      <div class="form-group">
+        <label for="amountUSD">Montant en USD que vous vendez (minimum 2$) *</label>
+        <input type="number" id="amountUSD" min="2" step="0.01" placeholder="Exemple: 10" required>
+      </div>
+
+      <div id="calculationSection" style="display: none;">
+        <div class="calculation-box">
+          <div class="calc-row">
+            <span>Montant en USD :</span>
+            <span class="amount" id="displayUSD">0 $</span>
+          </div>
+          <div class="calc-row">
+            <span>Taux de change :</span>
+            <span class="amount">1$ = 595 CFA</span>
+          </div>
+          <div class="calc-row">
+            <span>Montant brut en CFA :</span>
+            <span class="amount" id="displayGross">0 CFA</span>
+          </div>
+          <div class="calc-row" style="color: #ff8c00;">
+            <span>Frais d'envoi Mobile Money :</span>
+            <span>- 50 CFA</span>
+          </div>
+          <div class="calc-row total">
+            <span>Vous recevrez :</span>
+            <span class="amount" id="displayNet">0 CFA</span>
+          </div>
+        </div>
+
+        <div class="fees-note">
+          💡 <strong>Note :</strong> Les frais de 50 CFA couvrent les frais de transaction MTN Mobile Money. Ce montant sera déduit du total avant l'envoi.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="phoneNumber">Votre numéro Mobile Money (pour recevoir l'argent) *</label>
+        <input type="tel" id="phoneNumber" placeholder="+242 06 123 45 67" required>
+        <small style="color: #cbd5f5; font-size: 12px; display: block; margin-top: 5px;">
+          ⚠️ Vérifiez bien votre numéro, nous enverrons l'argent à ce numéro.
+        </small>
+      </div>
+
+      <div class="form-group" id="uploadSection" style="display: none;">
+        <label>Capture d'écran de votre transfert crypto *</label>
+        <p style="font-size: 13px; color: #cbd5f5; margin-bottom: 10px;">
+          Téléchargez la preuve de votre envoi de cryptomonnaie vers notre adresse.
+        </p>
+        <div class="file-upload-wrapper" id="fileUploadWrapper">
+          <div class="upload-icon">📸</div>
+          <p class="upload-text"><strong>Cliquez ici pour télécharger</strong></p>
+          <p class="upload-text">ou glissez votre image</p>
+          <input type="file" id="fileInput" accept="image/*" required>
+        </div>
+        <div class="file-preview" id="filePreview">
+          <p class="file-preview-text">✅ <span id="fileName"></span></p>
+        </div>
+      </div>
+
+      <button type="submit" class="btn" id="submitBtn" disabled>Valider la vente</button>
+
+    </form>
+
+    <div class="loading" id="loadingDiv">
+      <div class="spinner"></div>
+      <p style="color: #ffd700; font-weight: bold;">Envoi de votre commande en cours...</p>
+      <p style="color: #cbd5f5; font-size: 14px; margin-top: 10px;">Veuillez patienter, ne fermez pas cette page.</p>
+    </div>
+
+  </div>
+
+  <footer>
+    <p>© 2026 Bella - Exchange – Tous droits réservés</p>
+  </footer>
+
+  <script>
+    // 🔧 CONFIGURATION - URL DE TON API BACKEND
+    const API_URL = 'http://localhost:5000/api/orders';
+
+    const hamburger = document.getElementById('hamburger');
+    const nav = document.getElementById('nav');
+
+    hamburger.addEventListener('click', () => {
+      nav.classList.toggle('active');
+    });
+
+    // 🔧 CONFIGURATION DES ADRESSES WALLET - À REMPLIR
+    const WALLET_ADDRESSES = {
+      BTC: '1F7nZDdEw6AcEWRWG18LLDCiHggh3vYFoW',
+      ETH: '0x90439961b090f8b51c28023e30213e318db227f3',
+      BNB: '0x3F2Ab35cfb9b8BdB36503946bF7C9aB2990395D3',
+      USDT: '0x3F2Ab35cfb9b8BdB36503946bF7C9aB2990395D3'
+    };
+
+    const WALLET_LABELS = {
+      BTC: 'Adresse Bitcoin (BTC)',
+      ETH: 'Adresse Ethereum (ETH)',
+      BNB: 'Adresse BNB',
+      USDT: 'Adresse USDT (BEP20)'
+    };
+
+    const cryptoSelect = document.getElementById('crypto');
+    const amountUSD = document.getElementById('amountUSD');
+    const phoneNumber = document.getElementById('phoneNumber');
+    const feesAlert = document.getElementById('feesAlert');
+    const walletSection = document.getElementById('walletSection');
+    const walletLabel = document.getElementById('walletLabel');
+    const walletAddressDisplay = document.getElementById('walletAddressDisplay');
+    const calculationSection = document.getElementById('calculationSection');
+    const uploadSection = document.getElementById('uploadSection');
+    const submitBtn = document.getElementById('submitBtn');
+    const fileInput = document.getElementById('fileInput');
+    const filePreview = document.getElementById('filePreview');
+    const fileName = document.getElementById('fileName');
+    const fileUploadWrapper = document.getElementById('fileUploadWrapper');
+    const copyBtn = document.getElementById('copyBtn');
+    const loadingDiv = document.getElementById('loadingDiv');
+
+    const displayUSD = document.getElementById('displayUSD');
+    const displayGross = document.getElementById('displayGross');
+    const displayNet = document.getElementById('displayNet');
+
+    const USD_TO_CFA = 595;
+    const MTN_FEES = 50;
+    let selectedFile = null;
+    let currentWalletAddress = '';
+
+    cryptoSelect.addEventListener('change', function() {
+      const crypto = this.value;
+      
+      if (crypto) {
+        if (crypto === 'BTC' || crypto === 'ETH') {
+          feesAlert.classList.add('show');
+        } else {
+          feesAlert.classList.remove('show');
+        }
+
+        walletSection.classList.add('show');
+        currentWalletAddress = WALLET_ADDRESSES[crypto];
+        walletLabel.textContent = WALLET_LABELS[crypto];
+        walletAddressDisplay.textContent = currentWalletAddress;
+      } else {
+        feesAlert.classList.remove('show');
+        walletSection.classList.remove('show');
+      }
+      
+      checkFormCompletion();
+    });
+
+    copyBtn.addEventListener('click', function() {
+      if (currentWalletAddress) {
+        navigator.clipboard.writeText(currentWalletAddress).then(() => {
+          copyBtn.textContent = '✅ Copié !';
+          setTimeout(() => {
+            copyBtn.textContent = '📋 Copier l\'adresse';
+          }, 2000);
+        });
+      }
+    });
+
+    amountUSD.addEventListener('input', function() {
+      const usdValue = parseFloat(this.value) || 0;
+      
+      if (usdValue >= 2) {
+        const grossCFA = Math.round(usdValue * USD_TO_CFA);
+        const netCFA = grossCFA - MTN_FEES;
+        
+        displayUSD.textContent = usdValue + ' $';
+        displayGross.textContent = grossCFA.toLocaleString('fr-FR') + ' CFA';
+        displayNet.textContent = netCFA.toLocaleString('fr-FR') + ' CFA';
+        
+        calculationSection.style.display = 'block';
+        uploadSection.style.display = 'block';
+      } else {
+        calculationSection.style.display = 'none';
+        uploadSection.style.display = 'none';
+      }
+      
+      checkFormCompletion();
+    });
+
+    fileUploadWrapper.addEventListener('click', function() {
+      fileInput.click();
+    });
+
+    fileInput.addEventListener('change', function() {
+      if (this.files && this.files[0]) {
+        selectedFile = this.files[0];
+        fileName.textContent = selectedFile.name;
+        filePreview.classList.add('show');
+        checkFormCompletion();
+      }
+    });
+
+    function checkFormCompletion() {
+      const crypto = cryptoSelect.value;
+      const usd = parseFloat(amountUSD.value) || 0;
+      const phone = phoneNumber.value.trim();
+      
+      if (crypto && usd >= 2 && phone && selectedFile) {
+        submitBtn.disabled = false;
+      } else {
+        submitBtn.disabled = true;
+      }
+    }
+
+    phoneNumber.addEventListener('input', checkFormCompletion);
+
+    document.getElementById('sellForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const date = new Date();
+      const dateStr = date.getFullYear() + 
+                      String(date.getMonth() + 1).padStart(2, '0') + 
+                      String(date.getDate()).padStart(2, '0');
+      const random = Math.floor(1000 + Math.random() * 9000);
+      const orderNumber = `CMD-${dateStr}-${random}`;
+
+      const usdValue = parseFloat(amountUSD.value);
+      const grossCFA = Math.round(usdValue * USD_TO_CFA);
+      const netCFA = grossCFA - MTN_FEES;
+
+      loadingDiv.classList.add('show');
+      submitBtn.disabled = true;
+
+      const formData = new FormData();
+      formData.append('orderNumber', orderNumber);
+      formData.append('type', 'VENTE');
+      formData.append('crypto', cryptoSelect.value);
+      formData.append('amountUSD', usdValue);
+      formData.append('amountCFA', grossCFA.toLocaleString('fr-FR') + ' CFA (Net: ' + netCFA.toLocaleString('fr-FR') + ' CFA)');
+      formData.append('phoneNumber', phoneNumber.value);
+      formData.append('screenshot', selectedFile);
+
+      try {
+        const response = await fetch(`${API_URL}/create`, {
+          method: 'POST',
+          body: formData
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          const orderData = {
+            orderNumber: orderNumber,
+            type: 'VENTE',
+            crypto: cryptoSelect.value,
+            amountUSD: usdValue,
+            amountCFA: grossCFA.toLocaleString('fr-FR') + ' CFA',
+            netAmount: netCFA.toLocaleString('fr-FR') + ' CFA',
+            phoneNumber: phoneNumber.value,
+            walletReceive: currentWalletAddress,
+            timestamp: date.toISOString()
+          };
+
+          localStorage.setItem('currentOrder', JSON.stringify(orderData));
+          window.location.href = 'attente.html';
+        } else {
+          throw new Error(result.message || 'Erreur lors de la création de la commande');
+        }
+
+      } catch (error) {
+        console.error('Erreur:', error);
+        loadingDiv.classList.remove('show');
+        submitBtn.disabled = false;
+        alert('❌ Erreur lors de l\'envoi de la commande. Veuillez réessayer ou nous contacter sur WhatsApp.');
+      }
+    });
+  </script>
+
+</body>
+</html>
