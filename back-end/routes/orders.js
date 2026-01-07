@@ -5,17 +5,19 @@ const cloudinary = require('cloudinary').v2;
 const Order = require('../models/Order');
 const nodemailer = require('nodemailer');
 
-// Configuration Cloudinary
+// ================= CONFIG =================
+
+// Cloudinary
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
-// Configuration Multer (upload temporaire)
+// Multer (upload temporaire)
 const upload = multer({ dest: 'uploads/' });
 
-// Configuration NodeMailer
+// NodeMailer
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -24,15 +26,17 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-// Route POST : Créer une commande
+// ================= ROUTES =================
+
+// POST : Créer une commande
 router.post('/create', upload.single('screenshot'), async (req, res) => {
   try {
-    // 1. Upload de l'image sur Cloudinary
+    // 1. Upload image
     const result = await cloudinary.uploader.upload(req.file.path, {
       folder: 'congo-crypto-orders'
     });
 
-    // 2. Créer la commande dans MongoDB
+    // 2. Création commande
     const orderData = {
       orderNumber: req.body.orderNumber,
       type: req.body.type,
@@ -47,10 +51,32 @@ router.post('/create', upload.single('screenshot'), async (req, res) => {
     const order = new Order(orderData);
     await order.save();
 
-    // 3. Envoyer un email de notification
+    // ✅ 3. RÉPONSE IMMÉDIATE (CRITIQUE)
+    return res.status(201).json({
+      success: true,
+      message: 'Commande créée avec succès',
+      orderNumber: orderData.orderNumber
+    });
+
+  } catch (error) {
+    console.error('Erreur création commande :', error.message);
+    return res.status(500).json({
+      success: false,
+      message: 'Erreur lors de la création de la commande'
+    });
+  }
+});
+
+// ================= EMAIL ASYNCHRONE =================
+// ⚠️ Découplé pour éviter tout blocage
+
+router.post('/notify-email', async (req, res) => {
+  try {
+    const { orderData, screenshotUrl } = req.body;
+
     const mailOptions = {
       from: process.env.EMAIL_USER,
-      to: process.env.EMAIL_USER, // Tu reçois l'email
+      to: process.env.EMAIL_USER,
       subject: `🔔 Nouvelle commande ${orderData.type} - ${orderData.orderNumber}`,
       html: `
         <h2>Nouvelle commande reçue !</h2>
@@ -59,37 +85,25 @@ router.post('/create', upload.single('screenshot'), async (req, res) => {
         <p><strong>Crypto :</strong> ${orderData.crypto}</p>
         <p><strong>Montant USD :</strong> $${orderData.amountUSD}</p>
         <p><strong>Montant CFA :</strong> ${orderData.amountCFA}</p>
-        ${orderData.walletAddress ? `<p><strong>Adresse wallet :</strong> ${orderData.walletAddress}</p>` : ''}
-        ${orderData.phoneNumber ? `<p><strong>Numéro client :</strong> ${orderData.phoneNumber}</p>` : ''}
-        <p><strong>Capture :</strong> <a href="${result.secure_url}">Voir la capture</a></p>
-        <hr>
-        <p>Connecte-toi au dashboard pour traiter cette commande.</p>
+        <p><strong>Capture :</strong> <a href="${screenshotUrl}">Voir la capture</a></p>
       `
     };
 
     await transporter.sendMail(mailOptions);
 
-    // 4. Réponse au client
-    res.status(201).json({
-      success: true,
-      message: 'Commande créée avec succès',
-      orderNumber: orderData.orderNumber
-    });
+    return res.json({ success: true });
 
-  } catch (error) {
-    console.error('Erreur:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Erreur lors de la création de la commande'
-    });
+  } catch (err) {
+    console.error("Erreur email :", err.message);
+    return res.status(500).json({ success: false });
   }
 });
 
-// Route GET : Récupérer une commande
+// GET : une commande
 router.get('/:orderNumber', async (req, res) => {
   try {
     const order = await Order.findOne({ orderNumber: req.params.orderNumber });
-    
+
     if (!order) {
       return res.status(404).json({
         success: false,
@@ -97,36 +111,36 @@ router.get('/:orderNumber', async (req, res) => {
       });
     }
 
-    res.json({
+    return res.json({
       success: true,
-      order: order
+      order
     });
 
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: 'Erreur serveur'
     });
   }
 });
 
-// Route GET : Récupérer toutes les commandes (pour dashboard admin)
+// GET : toutes les commandes (admin)
 router.get('/', async (req, res) => {
   try {
     const orders = await Order.find().sort({ createdAt: -1 });
-    res.json({
+    return res.json({
       success: true,
-      orders: orders
+      orders
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: 'Erreur serveur'
     });
   }
 });
 
-// Route PUT : Mettre à jour le statut d'une commande
+// PUT : statut commande
 router.put('/:orderNumber/status', async (req, res) => {
   try {
     const order = await Order.findOneAndUpdate(
@@ -142,14 +156,14 @@ router.put('/:orderNumber/status', async (req, res) => {
       });
     }
 
-    res.json({
+    return res.json({
       success: true,
       message: 'Statut mis à jour',
-      order: order
+      order
     });
 
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: 'Erreur serveur'
     });
