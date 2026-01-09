@@ -1,9 +1,16 @@
 const TelegramBot = require('node-telegram-bot-api');
 
-const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN, { polling: false });
-
 async function sendNotification(orderData) {
   try {
+    // Vérifier que les variables existent
+    if (!process.env.TELEGRAM_BOT_TOKEN || !process.env.TELEGRAM_CHAT_ID) {
+      console.error('⚠️ Variables Telegram manquantes - notification ignorée');
+      return false;
+    }
+
+    // Créer le bot SEULEMENT quand on envoie (pas à l'import)
+    const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN, { polling: false });
+    
     const typeEmoji = orderData.type === 'ACHAT' ? '🟢' : '🔵';
     
     const message = `
@@ -43,7 +50,7 @@ ${orderData.phoneNumber ? `\n📱 *Téléphone:* ${orderData.phoneNumber}` : ''}
     return true;
 
   } catch (error) {
-    console.error('❌ Erreur Telegram:', error);
+    console.error('❌ Erreur Telegram:', error.message);
     return false;
   }
 }
