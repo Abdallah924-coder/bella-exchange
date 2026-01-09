@@ -4,6 +4,7 @@ const multer = require('multer');
 const cloudinary = require('cloudinary').v2;
 const Order = require('../models/Order');
 const nodemailer = require('nodemailer');
+const { sendNotification } = require('../utils/telegram');
 
 // ================= CONFIG =================
 
@@ -51,7 +52,43 @@ router.post('/create', upload.single('screenshot'), async (req, res) => {
     const order = new Order(orderData);
     await order.save();
 
-    // ✅ 3. RÉPONSE IMMÉDIATE (CRITIQUE)
+    // 3. Envoyer notification Telegram (asynchrone, ne bloque pas)
+    sendNotification({
+      orderNumber: orderData.orderNumber,
+      type: orderData.type,
+      crypto: orderData.crypto,
+      amountUSD: orderData.amountUSD,
+      amountCFA: orderData.amountCFA,
+      walletAddress: orderData.walletAddress,
+      phoneNumber: orderData.phoneNumber,
+      screenshotUrl: result.secure_url
+    }).catch(err => {
+      console.error('❌ Erreur Telegram (non bloquante):', err.message);
+    });
+
+    // 4. Email en backup (optionnel - asynchrone aussi)
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: process.env.EMAIL_USER,
+      subject: `🔔 Nouvelle commande ${orderData.type} - ${orderData.orderNumber}`,
+      html: `
+        <h2>Nouvelle commande reçue !</h2>
+        <p><strong>Numéro :</strong> ${orderData.orderNumber}</p>
+        <p><strong>Type :</strong> ${orderData.type}</p>
+        <p><strong>Crypto :</strong> ${orderData.crypto}</p>
+        <p><strong>Montant USD :</strong> $${orderData.amountUSD}</p>
+        <p><strong>Montant CFA :</strong> ${orderData.amountCFA}</p>
+        ${orderData.walletAddress ? `<p><strong>Adresse wallet :</strong> ${orderData.walletAddress}</p>` : ''}
+        ${orderData.phoneNumber ? `<p><strong>Numéro client :</strong> ${orderData.phoneNumber}</p>` : ''}
+        <p><strong>Capture :</strong> <a href="${result.secure_url}">Voir la capture</a></p>
+      `
+    };
+
+    transporter.sendMail(mailOptions).catch(err => {
+      console.error('❌ Erreur email (non bloquante):', err.message);
+    });
+
+    // ✅ 5. RÉPONSE IMMÉDIATE (CRITIQUE)
     return res.status(201).json({
       success: true,
       message: 'Commande créée avec succès',
@@ -64,38 +101,6 @@ router.post('/create', upload.single('screenshot'), async (req, res) => {
       success: false,
       message: 'Erreur lors de la création de la commande'
     });
-  }
-});
-
-// ================= EMAIL ASYNCHRONE =================
-// ⚠️ Découplé pour éviter tout blocage
-
-router.post('/notify-email', async (req, res) => {
-  try {
-    const { orderData, screenshotUrl } = req.body;
-
-    const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: process.env.EMAIL_USER,
-      subject: `🔔 Nouvelle commande ${orderData.type} - ${orderData.orderNumber}`,
-      html: `
-        <h2>Nouvelle commande reçue !</h2>
-        <p><strong>Numéro :</strong> ${orderData.orderNumber}</p>
-        <p><strong>Type :</strong> ${orderData.type}</p>
-        <p><strong>Crypto :</strong> ${orderData.crypto}</p>
-        <p><strong>Montant USD :</strong> $${orderData.amountUSD}</p>
-        <p><strong>Montant CFA :</strong> ${orderData.amountCFA}</p>
-        <p><strong>Capture :</strong> <a href="${screenshotUrl}">Voir la capture</a></p>
-      `
-    };
-
-    await transporter.sendMail(mailOptions);
-
-    return res.json({ success: true });
-
-  } catch (err) {
-    console.error("Erreur email :", err.message);
-    return res.status(500).json({ success: false });
   }
 });
 
