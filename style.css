@@ -90,6 +90,10 @@ body {
     border: 2px solid #ffd700;
     color: #ffd700;
  }
+.secondary:hover {
+    color: #000;
+    background: #ffd700;
+}
  .prices {
     padding: 40px 20px;
     text-align: center;
